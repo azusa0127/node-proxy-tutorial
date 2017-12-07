@@ -1,0 +1,29 @@
+{
+  "name": "node-proxy-tutorial-express",
+  "version": "1.0.0",
+  "description": "A step by step guide for how to make a forwarding service with express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "author": "Phoenix Song <github.com/azusa0127>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "1.x",
+    "express": "4.x",
+    "morgan": "1.x",
+    "request": "2.x",
+    "response-time": "2.x"
+  },
+  "devDependencies": {
+    "eslint": "4.x",
+    "eslint-config-standard": "10.x",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-node": "5.x",
+    "eslint-plugin-promise": "3.x",
+    "eslint-plugin-standard": "3.x",
+    "eslint-config-standard-next": "0.x"
+  },
+  "homepage": "https://github.com/azusa0127/node-proxy-tutorial#readme",
+  "private": true
+}

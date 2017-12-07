@@ -1,0 +1,8 @@
+[
+  {
+    "prefix": "/locationiq",
+    "baseUrl": "https://locationiq.org",
+    "query": { "key": "93a4e4e1cf3f0c", "format": "json" },
+    "headers": {}
+  }
+]
