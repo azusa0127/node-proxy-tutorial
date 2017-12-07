@@ -44,7 +44,7 @@ POST /v1/table/delete.json -d {id:123}
 
 ## Express based example
 
-* There is also a version of tutorial in Express offered under [tutorial-in-express](node-proxy-tutorial/tutorial-in-express).
+* There is also a version of tutorial in Express offered under [tutorial-in-express](https://github.com/azusa0127/node-proxy-tutorial/tree/master/tutorial-in-express).
 
 ## License
 
