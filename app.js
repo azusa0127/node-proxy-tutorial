@@ -16,9 +16,12 @@ const headerCase = require('header-case');
 
 const CONFIGS = JSON.parse(fs.readFileSync('config.json'));
 
-const httpAgent = new http.Agent({ keepAlive: true });
-const httpsAgent = new https.Agent({ keepAlive: true, rejectUnauthorized: false });
-const validateStatus = status => true;
+const axiosBaseOption = {
+  httpAgent: new http.Agent({ keepAlive: true }),
+  httpsAgent: new https.Agent({ keepAlive: true, rejectUnauthorized: false }),
+  responseType: 'stream',
+  validateStatus: status => true
+};
 
 const processResponseHeaders = headers => {
   const rv = {};
@@ -39,10 +42,7 @@ const proxy = ({ prefix, baseUrl, query = {}, headers = {} }) =>
         url: ctx.path,
         headers: { ...ctx.headers, ...headers },
         params: { ...ctx.query, ...query },
-        responseType: 'stream',
-        httpAgent,
-        httpsAgent,
-        validateStatus
+        ...axiosBaseOption
       };
       if (remoteReqOption.headers.host) delete remoteReqOption.headers.host;
       const res = await axios(remoteReqOption);

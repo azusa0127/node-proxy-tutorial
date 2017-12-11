@@ -4,7 +4,8 @@
   "description": "A step by step guide for how to make a proxy service with node",
   "main": "app.js",
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./app.js",
+    "test": "node ./test.js"
   },
   "author": "Phoenix Song <github.com/azusa0127>",
   "license": "MIT",
@@ -19,11 +20,12 @@
   "devDependencies": {
     "eslint": "4.x",
     "eslint-config-standard": "10.x",
+    "eslint-config-standard-next": "0.x",
     "eslint-plugin-import": "2.x",
     "eslint-plugin-node": "5.x",
     "eslint-plugin-promise": "3.x",
     "eslint-plugin-standard": "3.x",
-    "eslint-config-standard-next": "0.x"
+    "tap": "^11.0.0"
   },
   "repository": {
     "type": "git",
