@@ -2,9 +2,9 @@
  * 3 - Request analysis and basic routing.
  * https://nodejs.org/api/http.html#http_class_http_incomingmessage
  */
-
 const https = require('https'); // Built-in https module.
 const fs = require('fs'); // Built-in filesystem module.
+
 // Initialize a https server.
 https
   .createServer(
@@ -17,9 +17,9 @@ https
       const { method, url, headers } = req;
       console.log({ method, url, headers });
       // Basic routing conditionals.
-      if (/^\/hello/.test(url) && method === 'GET') {
+      if (/^\/hello/.test(url)) {
         res.end('Hello from node.js'); // GET /hello*
-      } else if (/^\/bye/.test(url) && method === 'GET') {
+      } else if (url.startsWith('/bye')) {
         res.end('Bye bye from node.js'); // GET /bye*
       } else {
         res.statusCode = 404; // Any other path.

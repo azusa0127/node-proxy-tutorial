@@ -4,6 +4,7 @@
 const https = require('https'); // Built-in https module.
 const fs = require('fs'); // Built-in filesystem module.
 
+// Initialize a https server.
 https
   .createServer(
     {

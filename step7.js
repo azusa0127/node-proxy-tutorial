@@ -6,7 +6,7 @@ const fs = require('fs'); // Built-in filesystem module.
 const Koa = require('koa'); // koa.js server framework.
 const mount = require('koa-mount'); // A router middleware for koa.
 const KoaLogger = require('koa-logger'); // Logger middleware for koa.
-const request = require('request'); // A convenient http request package.
+const axios = require('axios'); // A convenient http request package.
 
 // A static configuration that can be extracted into json config file.
 const CONFIGS = [
@@ -26,22 +26,22 @@ for (const { prefix, baseUrl, query = {}, headers = {} } of CONFIGS) {
       prefix,
       new Koa().use(async ctx => {
         const remoteReqOption = {
-          baseUrl,
+          baseURL: baseUrl,
           method: ctx.method,
-          uri: ctx.path,
+          url: ctx.path,
           headers: { ...ctx.headers, ...headers },
-          qs: { ...ctx.query, ...query }
+          params: { ...ctx.query, ...query },
+          responseType: 'arraybuffer',
+          httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+          validateStatus: status => true
         };
         if (remoteReqOption.headers.host) delete remoteReqOption.headers.host;
-        ctx.body = ctx.req
-          .pipe(request(remoteReqOption))
-          .once('response', resp => {
-            // Setting the headers
-            ctx.response.status = resp.statusCode;
-            ctx.response.message = resp.statusMessage;
-            ctx.response.set(resp.headers);
-          })
-          .on('error', ctx.onerror);
+        const res = await axios(remoteReqOption);
+        // Forward the response status and headers along with body.
+        ctx.response.status = res.status;
+        ctx.response.message = res.statusText;
+        ctx.response.set(res.headers);
+        ctx.body = res.data;
       })
     )
   );

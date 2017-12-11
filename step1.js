@@ -3,6 +3,7 @@
  */
 const http = require('http'); // Built-in http module.
 
+// Initialize a http server.
 http
   .createServer((req, res) => {
     res.end('Hello from Node.js'); // .end() for completing a stream.

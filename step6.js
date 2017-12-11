@@ -6,28 +6,37 @@ const fs = require('fs'); // Built-in filesystem module.
 const Koa = require('koa'); // koa.js server framework.
 const mount = require('koa-mount'); // A router middleware for koa.
 const KoaLogger = require('koa-logger'); // Logger middleware for koa.
-const request = require('request'); // A convenient http request package.
+const axios = require('axios'); // A convenient http request package.
 
 // A proxy application later to be mounted.
 const locationiqApp = new Koa().use(async ctx => {
   // Print the request properties for debugging.
-  const { method, headers, path, query } = ctx.request;
-  console.log({ method, headers, path, query });
+  const { method, headers, path, query, rawBody } = ctx.request;
+  console.log({ method, headers, path, query, rawBody });
   // Remove the old host header as we are forwarding request.
   delete headers.host;
-  // Lets forward the request to LocationIQ API https://locationiq.org/
+  // Lets forward the request to LocationIQ API https://locationiq.org/ with added infomation.
   const baseUrl = 'https://locationiq.org';
   query.key = '93a4e4e1cf3f0c'; // This is my personal apikey.
   query.format = 'json';
-  // Use request package for remote request and pipe the response back.
-  ctx.body = ctx.req
-    .pipe(request({ method, baseUrl, uri: path, qs: query, headers }))
-    .once('response', resp => {
-      // Setting the headers
-      ctx.response.status = resp.statusCode;
-      ctx.response.message = resp.statusMessage;
-      ctx.response.set(resp.headers);
-    });
+  // Use request package for convinient remote request.
+  const res = await axios({
+    baseURL: baseUrl,
+    url: path,
+    params: query,
+    data: rawBody,
+    // For proxy purpose, we don't want to parse the response body, so change it to buffer.
+    responseType: 'arraybuffer',
+    // This is needed when requesting server with invalid SSL cert.
+    httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+    // For proxy purpoe, we don't want the request to fail at any status.
+    validateStatus: status => true
+  });
+  // Forward the response status and headers along with body.
+  ctx.response.status = res.status;
+  ctx.response.message = res.statusText;
+  ctx.response.set(res.headers);
+  ctx.body = res.data;
 });
 // Initilize the Koa app instance with logger and mount locationiqApp to /locationiq.
 const app = new Koa().use(KoaLogger()).use(mount('/locationiq', locationiqApp));

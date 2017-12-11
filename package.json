@@ -9,6 +9,8 @@
   "author": "Phoenix Song <github.com/azusa0127>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
+    "header-case": "^1.0.1",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
     "koa-logger": "^3.1.0",
