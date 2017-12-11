@@ -42,6 +42,11 @@ POST /v1/table/delete.json -d {id:123}
 * Simply run `node step#.js`, and use browser or Postman, Insomnia to make request on
   `https://localhost:3000`
 
+## How to use the npm script defined
+
+* Start the server (app.js) - `npm run start`
+* Test the server (test.js) - `npm run test` after the server is started.
+
 ## Express based example
 
 * There is also a version of tutorial in Express offered under [tutorial-in-express](https://github.com/azusa0127/node-proxy-tutorial/tree/master/tutorial-in-express).
